@@ -1,4 +1,3 @@
-import React from 'react';
 import { fakeData as notes } from '../assets/fakeData.js';
 import NoteCard from '../components/NoteCard';
 

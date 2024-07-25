@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <div id='app'>
-        <h2>Hello from Vite</h2>
+        <h2>Drag and Drop Note App</h2>
         <NotesPage />
       </div>
     </>
