@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Trash from '../icons/Trash';
+import { setNewOffset, autoGrow } from '../utils';
 
 const NoteCard = ({ note }) => {
   const [position, setPosition] = useState(JSON.parse(note.position));
@@ -17,12 +18,7 @@ const NoteCard = ({ note }) => {
   useEffect(() => {
     autoGrow(textAreaRef);
   });
-  // autoGrow function to allow the textarea grow with text
-  const autoGrow = () => {
-    const { current } = textAreaRef;
-    current.style.height = 'auto'; // reset the height
-    current.style.height = current.scrollHeight + 'px';
-  };
+
   // set mouse postion function
   const mouseDown = e => {
     mouseStartPos.x = e.clientX;
@@ -41,10 +37,8 @@ const NoteCard = ({ note }) => {
     mouseStartPos.x = e.clientX;
     mouseStartPos.y = e.clientY;
     //3-Update card top and left position
-    setPosition({
-      x: cardRef.current.offsetLeft - mouseMoveDir.x,
-      y: cardRef.current.offsetTop - mouseMoveDir.y
-    });
+    const newPosition = setNewOffset(cardRef.current, mouseMoveDir);
+    setPosition(newPosition);
   };
   const mouseUp = () => {
     document.removeEventListener('mousemove', mouseMove);
