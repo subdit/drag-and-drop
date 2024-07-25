@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Trash from '../icons/Trash';
-import { setNewOffset, autoGrow } from '../utils';
+import { setNewOffset, autoGrow, setZIndexCard } from '../utils';
 
 const NoteCard = ({ note }) => {
   const [position, setPosition] = useState(JSON.parse(note.position));
@@ -26,6 +26,8 @@ const NoteCard = ({ note }) => {
 
     document.addEventListener('mousemove', mouseMove);
     document.addEventListener('mouseup', mouseUp);
+
+    setZIndexCard(cardRef.current);
   };
   const mouseMove = e => {
     //1-Calculate move direction
@@ -68,6 +70,9 @@ const NoteCard = ({ note }) => {
           defaultValue={body}
           onInput={() => {
             autoGrow(textAreaRef);
+          }}
+          onFocus={() => {
+            setZIndexCard(cardRef.current);
           }}></textarea>
       </div>
     </div>
