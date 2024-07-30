@@ -1,13 +1,15 @@
-# drag-and-drop
+# drag-and-drop application
 
-## React application
+### React application
 
 ### Tech
 
-1. This application create with React
-2. This app cabable of drag and drop card and able to customize color of the notepad.
-3. Provide user friendly to create and delete the note.
+1. React: useState, useEffect
+2. Database: Appwrite.io
 
-## Database
+#### the purpose and usefull of this application
 
-1. Appwrite: https://cloud.appwrite.io
+1.  This application is a full stack app, using React; useState, useEffect
+2.  Database using <https://cloud.appwrite.io>
+3.  The application allow user to create, update and delete the note and able to drag and drop this sticky note.
+4.  The user able to change the colors of their sticky note
