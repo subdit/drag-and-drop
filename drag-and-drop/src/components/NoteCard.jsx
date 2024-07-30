@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Trash from '../icons/Trash';
-import { setNewOffset, autoGrow, setZIndexCard } from '../utils';
+import { setNewOffset, autoGrow, setZIndexCard, bodyParser } from '../utils';
 
 const NoteCard = ({ note }) => {
-  const [position, setPosition] = useState(JSON.parse(note.position));
+  const [position, setPosition] = useState(bodyParser(note.position));
   // set mouse position on x and y
   let mouseStartPos = { x: 0, y: 0 };
   // reference the card using useRef
   const cardRef = useRef(null);
   // set color
-  const colors = JSON.parse(note.colors);
+  const colors = bodyParser(note.colors);
   // set body
-  const body = JSON.parse(note.body);
+  const body = bodyParser(note.body);
   // set change on textare using useRef
   const textAreaRef = useRef(null);
 

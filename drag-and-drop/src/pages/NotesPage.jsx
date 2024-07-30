@@ -14,7 +14,7 @@ const NotesPage = () => {
       import.meta.env.VITE_DATABASE_ID,
       import.meta.env.VITE_COLLECTION_NOTES_ID
     );
-    console.log(response);
+    setNotes(response.documents);
   };
 
   return (
