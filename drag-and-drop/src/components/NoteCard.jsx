@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Trash from '../icons/Trash';
 import { setNewOffset, autoGrow, setZIndexCard, bodyParser } from '../utils';
+import { db } from '../appwrite/databases.js';
 
 const NoteCard = ({ note }) => {
   const [position, setPosition] = useState(bodyParser(note.position));
@@ -45,6 +46,18 @@ const NoteCard = ({ note }) => {
   const mouseUp = () => {
     document.removeEventListener('mousemove', mouseMove);
     document.removeEventListener('mouseup', mouseUp);
+
+    const newPosition = setNewOffset(cardRef.current);
+    db.notes.update(note.$id, { position: JSON.stringify(newPosition) });
+  };
+  // Save data
+  const saveData = async value => {
+    const payload = { [key]: JSON.stringify(value) };
+    try {
+      await db.notes.update(note.$id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
