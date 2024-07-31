@@ -4,6 +4,11 @@ import { setNewOffset, autoGrow, setZIndexCard, bodyParser } from '../utils';
 import { db } from '../appwrite/databases.js';
 
 const NoteCard = ({ note }) => {
+  const [saving, setSaving] = useState(false);
+  const keyUpTimer = useRef(null);
+
+  // set body
+  const body = bodyParser(note.body);
   const [position, setPosition] = useState(bodyParser(note.position));
   // set mouse position on x and y
   let mouseStartPos = { x: 0, y: 0 };
@@ -11,8 +16,7 @@ const NoteCard = ({ note }) => {
   const cardRef = useRef(null);
   // set color
   const colors = bodyParser(note.colors);
-  // set body
-  const body = bodyParser(note.body);
+
   // set change on textare using useRef
   const textAreaRef = useRef(null);
 
@@ -48,18 +52,37 @@ const NoteCard = ({ note }) => {
     document.removeEventListener('mouseup', mouseUp);
 
     const newPosition = setNewOffset(cardRef.current);
-    db.notes.update(note.$id, { position: JSON.stringify(newPosition) });
+    saveData('position', newPosition);
+    // db.notes.update(note.$id, { position: JSON.stringify(newPosition) });
   };
   // Save data
-  const saveData = async value => {
+  const saveData = async (key, value) => {
     const payload = { [key]: JSON.stringify(value) };
     try {
-      await db.notes.update(note.$id);
+      await db.notes.update(note.$id, payload);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+  const handleKeyUp = async () => {
+    setSaving(true);
+    if (keyUpTimer.current) {
+      clearTimeout(keyUpTimer.current);
+    }
 
+    //1 - Initiate "saving" state
+    setSaving(true);
+
+    //2 - If we have a timer id, clear it so we can add another two seconds
+    if (keyUpTimer.current) {
+      clearTimeout(keyUpTimer.current);
+    }
+
+    //3 - Set timer to trigger save in 2 seconds
+    keyUpTimer.current = setTimeout(() => {
+      saveData('body', textAreaRef.current.value);
+    }, 2000);
+  };
   return (
     <div
       ref={cardRef}
@@ -75,9 +98,15 @@ const NoteCard = ({ note }) => {
         className='card-header'
         style={{ color: colors.colorHeader }}>
         <Trash />
+        {saving && (
+          <div className='card-saving'>
+            <span style={{ color: colors.colorText }}>Saving ...</span>
+          </div>
+        )}
       </div>
       <div className='card-body'>
         <textarea
+          onKeyUp={handleKeyUp}
           ref={textAreaRef}
           style={{ color: colors.colorText }}
           defaultValue={body}
