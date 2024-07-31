@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Trash from '../icons/Trash';
 import { db } from '../appwrite/databases';
 import { NoteContext } from '../context/NoteContext';

@@ -4,9 +4,10 @@ import { db } from '../appwrite/databases';
 
 export const NoteContext = createContext();
 
-const NoteProvider = ({ children }) => {
+const NotesProvider = ({ children }) => {
+  const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState(null);
 
   useEffect(() => {
     init();
@@ -16,6 +17,7 @@ const NoteProvider = ({ children }) => {
     const reponse = await db.notes.list();
     setNotes(reponse.documents);
     setLoading(false);
+    selectedNote, setSelectedNote;
   };
 
   const contextData = { notes, setNotes };
@@ -37,4 +39,4 @@ const NoteProvider = ({ children }) => {
     </NoteContext.Provider>
   );
 };
-export default NoteProvider;
+export default NotesProvider;

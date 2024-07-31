@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState, useContext } from 'react';
-
 import Spinner from '../icons/Spinner.jsx';
 import { setNewOffset, autoGrow, setZIndexCard, bodyParser } from '../utils';
 import { db } from '../appwrite/databases.js';
 import DeleteButton from './DeleteButton.jsx';
+import { NoteContext } from '../context/NoteContext';
 
 const NoteCard = ({ note }) => {
-  const setNotes = useContext();
   const [saving, setSaving] = useState(false);
   const keyUpTimer = useRef(null);
+  const { setSelectedNote } = useContext(NoteContext);
 
   // set body
   const body = bodyParser(note.body);
@@ -25,9 +25,11 @@ const NoteCard = ({ note }) => {
 
   useEffect(() => {
     autoGrow(textAreaRef);
-  });
+    setZIndexCard(cardRef.current);
+  }, []);
 
   // set mouse postion function
+
   const mouseDown = e => {
     if (e.target.className === 'card-header') {
       mouseStartPos.x = e.clientX;
@@ -37,6 +39,7 @@ const NoteCard = ({ note }) => {
       document.addEventListener('mouseup', mouseUp);
 
       setZIndexCard(cardRef.current);
+      setSelectedNote(note);
     }
   };
   const mouseMove = e => {
@@ -58,7 +61,6 @@ const NoteCard = ({ note }) => {
 
     const newPosition = setNewOffset(cardRef.current);
     saveData('position', newPosition);
-    // db.notes.update(note.$id, { position: JSON.stringify(newPosition) });
   };
   // Save data
   const saveData = async (key, value) => {
@@ -82,7 +84,6 @@ const NoteCard = ({ note }) => {
     if (keyUpTimer.current) {
       clearTimeout(keyUpTimer.current);
     }
-
     //3 - Set timer to trigger save in 2 seconds
     keyUpTimer.current = setTimeout(() => {
       saveData('body', textAreaRef.current.value);
@@ -95,14 +96,14 @@ const NoteCard = ({ note }) => {
       style={{
         backgroundColor: colors.colorBody,
         left: `${position.x}px`,
-        top: `${position.y}px`
+        top: `${position.y}py `
       }}>
       <div
         onMouseDown={mouseDown}
         // onMouseLeave={mouseUp}
         className='card-header'
         style={{ color: colors.colorHeader }}>
-        <DeleteButton setNotes={setNotes} noteId={note.$id} />
+        <DeleteButton setNotes={NoteContext} noteId={note.$id} />
         {saving && (
           <div className='card-saving'>
             <Spinner color={colors.colorText} />
@@ -122,6 +123,7 @@ const NoteCard = ({ note }) => {
           }}
           onFocus={() => {
             setZIndexCard(cardRef.current);
+            setSelectedNote(note);
           }}></textarea>
       </div>
     </div>
