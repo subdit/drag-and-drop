@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import Spinner from '../icons/Spinner';
+import { db } from '../appwrite/databases';
 
 export const NoteContext = createContext();
 
