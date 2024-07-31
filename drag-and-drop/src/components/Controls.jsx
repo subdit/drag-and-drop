@@ -1,16 +1,16 @@
-import Addbutton from './Addbutton';
-import Color from './Color';
+import AddButton from './AddButton';
+
 import colors from '../assets/colors.json';
+import Color from './Color';
 
 const Controls = () => {
   return (
     <div id='controls'>
-      <Addbutton />
+      <AddButton />
       {colors.map(color => (
         <Color key={color.id} color={color} />
       ))}
     </div>
   );
 };
-
 export default Controls;

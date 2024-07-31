@@ -17,6 +17,7 @@ const AddButton = () => {
       colors: JSON.stringify(colors[0])
     };
     startingPos.current += 10;
+
     const response = await db.notes.create(payload);
     setNotes(prevState => [response, ...prevState]);
   };
