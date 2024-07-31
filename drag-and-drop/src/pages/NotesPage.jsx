@@ -4,11 +4,11 @@ import { NoteContext } from '../context/NoteContext';
 import { useContext } from 'react';
 
 const NotesPage = () => {
-  const { notes } = useContext(NoteContext);
+  const { notes, setNotes } = useContext(NoteContext);
   return (
     <div>
       {notes.map(note => (
-        <NoteCard key={note.$id} note={note} />
+        <NoteCard key={note.$id} note={note} setNotes={setNotes} />
       ))}
       <Controls />
     </div>

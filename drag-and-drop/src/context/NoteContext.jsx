@@ -1,26 +1,26 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext } from 'react';
+import { useState, useEffect } from 'react';
 import Spinner from '../icons/Spinner';
 import { db } from '../appwrite/databases';
 
 export const NoteContext = createContext();
 
 const NotesProvider = ({ children }) => {
-  const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [notes, setNotes] = useState(null);
+  const [notes, setNotes] = useState();
 
   useEffect(() => {
     init();
   }, []);
 
   const init = async () => {
-    const reponse = await db.notes.list();
-    setNotes(reponse.documents);
+    const response = await db.notes.list();
+    setNotes(response.documents);
     setLoading(false);
-    selectedNote, setSelectedNote;
   };
 
   const contextData = { notes, setNotes };
+
   return (
     <NoteContext.Provider value={contextData}>
       {loading ? (

@@ -32,16 +32,16 @@ const NoteCard = ({ note }) => {
 
   const mouseDown = e => {
     if (e.target.className === 'card-header') {
+      setZIndexCard(cardRef.current);
+
       mouseStartPos.x = e.clientX;
       mouseStartPos.y = e.clientY;
 
       document.addEventListener('mousemove', mouseMove);
       document.addEventListener('mouseup', mouseUp);
-
-      setZIndexCard(cardRef.current);
-      setSelectedNote(note);
     }
   };
+
   const mouseMove = e => {
     //1-Calculate move direction
     let mouseMoveDir = {
@@ -70,6 +70,7 @@ const NoteCard = ({ note }) => {
     } catch (error) {
       console.error(error);
     }
+    setSaving(false);
   };
   const handleKeyUp = async () => {
     setSaving(true);
@@ -103,12 +104,11 @@ const NoteCard = ({ note }) => {
         // onMouseLeave={mouseUp}
         className='card-header'
         style={{ color: colors.colorHeader }}>
-        <DeleteButton setNotes={NoteContext} noteId={note.$id} />
+        <DeleteButton noteId={note.$id} setNotes={NoteContext} />
         {saving && (
           <div className='card-saving'>
             <Spinner color={colors.colorText} />
-
-            <span style={{ color: colors.colorText }}>Saving ...</span>
+            <span style={{ color: colors.colorText }}>Saving...</span>
           </div>
         )}
       </div>
