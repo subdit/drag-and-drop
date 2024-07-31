@@ -16,6 +16,11 @@ body {
   padding: 2;
   margin: 2;
 }
+.h1 {
+  text-align: center;
+  padding: 5px;
+  /* margin: 4px; */
+}
 
 #app {
   background-color: #212228;

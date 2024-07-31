@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <div id='app'>
-        <h2>Drag and Drop Note App</h2>
+        <h1 className='h1'>Drag & Drop Sticky Note</h1>
         <NotesPage />
       </div>
     </>
