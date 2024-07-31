@@ -6,7 +6,7 @@
   color: rgba(255, 255, 255, 0.87);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --spinner-animation-speed: 2s;
+  --spinner-animation-speed: 3s;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
