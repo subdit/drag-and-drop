@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 
 import Spinner from '../icons/Spinner.jsx';
 import { setNewOffset, autoGrow, setZIndexCard, bodyParser } from '../utils';
 import { db } from '../appwrite/databases.js';
 import DeleteButton from './DeleteButton.jsx';
 
-const NoteCard = ({ note, setNotes }) => {
+const NoteCard = ({ note }) => {
+  const setNotes = useContext();
   const [saving, setSaving] = useState(false);
   const keyUpTimer = useRef(null);
 
