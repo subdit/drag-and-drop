@@ -14,7 +14,7 @@ const AddButton = () => {
         x: startingPos.current,
         y: startingPos.current
       }),
-      colors: JSON.stringify(colors[0])
+      colors: JSON.stringify(colors[1])
     };
     startingPos.current += 10;
 
